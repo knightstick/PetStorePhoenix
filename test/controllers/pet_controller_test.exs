@@ -1,5 +1,6 @@
 defmodule PetStore.PetControllerTest do
   use PetStore.ConnCase
+  alias PetStore.PetView
 
   test "#index renders a list of pets" do
     conn = build_conn()
@@ -8,7 +9,7 @@ defmodule PetStore.PetControllerTest do
     conn = get conn, pet_path(conn, :index)
 
     assert json_response(conn, 200) ==
-      render_jsonapi("index.json", pets: [pet])
+      render_jsonapi(PetView, "index.json", %{pets: [pet]})
   end
 
   test "#show renders a specific pet" do
@@ -17,14 +18,7 @@ defmodule PetStore.PetControllerTest do
 
     conn = get conn, pet_path(conn, :show, pet)
 
-    assert json_response(conn, 200) == render_jsonapi("show.json", pet: pet)
-  end
-
-  defp render_jsonapi(template, assigns) do
-    assigns = Map.new(assigns)
-
-    PetStore.PetView.render(template, assigns)
-    |> Poison.encode!
-    |> Poison.decode!
+    assert json_response(conn, 200) ==
+      render_jsonapi(PetView, "show.json", %{pet: pet})
   end
 end

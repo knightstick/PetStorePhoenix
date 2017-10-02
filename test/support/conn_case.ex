@@ -26,6 +26,7 @@ defmodule PetStore.ConnCase do
       import Ecto.Query
 
       import PetStore.Router.Helpers
+      import PetStore.ConnCaseHelper
       import PetStore.Factory
 
       # The default endpoint for testing
