@@ -10,7 +10,7 @@ defmodule PetStore.Router do
     scope "/v1" do
       pipe_through :api
 
-      resources "/pets", PetController, only: [:index]
+      resources "/pets", PetController, only: [:index, :show]
     end
   end
 end

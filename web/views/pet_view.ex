@@ -1,7 +1,13 @@
 defmodule PetStore.PetView do
   def render("index.json", %{pets: pets}) do
     %{
-      "data" => Enum.map(pets, &pet_jsonapi/1)
+      data: Enum.map(pets, &pet_jsonapi/1)
+    }
+  end
+
+  def render("show.json", %{pet: pet}) do
+    %{
+      data: pet_jsonapi(pet)
     }
   end
 
@@ -10,9 +16,9 @@ defmodule PetStore.PetView do
   # Maybe have an adapter as a module attribute?
   def pet_jsonapi(pet) do
     %{
-      "type" => "pets",
-      "attributes" => %{
-        "name" => pet.name
+      type: "pets",
+      attributes: %{
+        name: pet.name
       }
     }
   end
