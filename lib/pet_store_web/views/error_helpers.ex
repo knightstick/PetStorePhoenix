@@ -1,4 +1,4 @@
-defmodule PetStore.ErrorHelpers do
+defmodule PetStoreWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -21,9 +21,9 @@ defmodule PetStore.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(PetStore.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(PetStoreWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(PetStore.Gettext, "errors", msg, opts)
+      Gettext.dgettext(PetStoreWeb.Gettext, "errors", msg, opts)
     end
   end
 end

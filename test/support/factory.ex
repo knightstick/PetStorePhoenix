@@ -3,7 +3,7 @@ defmodule PetStore.Factory do
 
   # Can we use something similar to Faker?
   def pet_factory do
-    %PetStore.Pet{
+    %PetStore.Pets.Pet{
       name: sequence(:name, &"Phoenix #{&1}")
     }
   end

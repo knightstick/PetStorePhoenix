@@ -3,7 +3,7 @@ defmodule ShowingAPetIntegrationTest do
   use ExUnit.Case, async: true
   use Plug.Test
   import PetStore.Factory
-  alias PetStore.Router
+  alias PetStoreWeb.Router
   alias PetStore.Repo
 
   setup do

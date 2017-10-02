@@ -1,4 +1,4 @@
-defmodule PetStore.PetView do
+defmodule PetStoreWeb.PetView do
   def render("index.json", %{pets: pets}) do
     %{
       data: Enum.map(pets, &pet_jsonapi/1)

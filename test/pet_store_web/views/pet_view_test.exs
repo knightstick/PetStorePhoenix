@@ -1,7 +1,7 @@
-defmodule PetStore.PetViewTest do
-  use PetStore.ModelCase
+defmodule PetStoreWeb.PetViewTest do
+  use PetStore.DataCase
   import PetStore.Factory
-  alias PetStore.PetView
+  alias PetStoreWeb.PetView
 
   test "pet_jsonapi" do
     pet = insert(:pet)

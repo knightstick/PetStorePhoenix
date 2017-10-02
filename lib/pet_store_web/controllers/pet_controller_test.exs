@@ -1,6 +1,6 @@
-defmodule PetStore.PetControllerTest do
-  use PetStore.ConnCase
-  alias PetStore.PetView
+defmodule PetStoreWeb.PetControllerTest do
+  use PetStoreWeb.ConnCase
+  alias PetStoreWeb.PetView
 
   test "#index renders a list of pets" do
     conn = build_conn()

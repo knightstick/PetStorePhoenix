@@ -10,10 +10,9 @@ config :pet_store,
   ecto_repos: [PetStore.Repo]
 
 # Configures the endpoint
-config :pet_store, PetStore.Endpoint,
+config :pet_store, PetStoreWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "SoYwUIl0qlyT26aq1t7be7ZGbIqKUkTe0T3jKg8Zd7Ecb3dEMryxOsJwneslCPdA",
-  render_errors: [view: PetStore.ErrorView, accepts: ~w(json)],
+  render_errors: [view: PetStoreWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: PetStore.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

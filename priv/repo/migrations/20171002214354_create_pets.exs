@@ -1,4 +1,4 @@
-defmodule PetStore.Repo.Migrations.CreatePet do
+defmodule PetStore.Repo.Migrations.CreatePets do
   use Ecto.Migration
 
   def change do
@@ -7,5 +7,6 @@ defmodule PetStore.Repo.Migrations.CreatePet do
 
       timestamps()
     end
+
   end
 end

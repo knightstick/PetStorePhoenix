@@ -1,12 +1,12 @@
-defmodule PetStore.Web do
+defmodule PetStoreWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use PetStore.Web, :controller
-      use PetStore.Web, :view
+      use PetStoreWeb, :controller
+      use PetStoreWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -17,56 +17,41 @@ defmodule PetStore.Web do
   and import those modules here.
   """
 
-  def model do
-    quote do
-      use Ecto.Schema
-
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-    end
-  end
-
   def controller do
     quote do
-      use Phoenix.Controller
-
-      alias PetStore.Repo
-      import Ecto
-      import Ecto.Query
-
-      import PetStore.Router.Helpers
-      import PetStore.Gettext
+      use Phoenix.Controller, namespace: PetStoreWeb
+      import Plug.Conn
+      import PetStoreWeb.Router.Helpers
+      import PetStoreWeb.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "web/templates"
+      use Phoenix.View, root: "lib/pet_store_web/templates",
+                        namespace: PetStoreWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
-      import PetStore.Router.Helpers
-      import PetStore.ErrorHelpers
-      import PetStore.Gettext
+      import PetStoreWeb.Router.Helpers
+      import PetStoreWeb.ErrorHelpers
+      import PetStoreWeb.Gettext
     end
   end
 
   def router do
     quote do
       use Phoenix.Router
+      import Plug.Conn
+      import Phoenix.Controller
     end
   end
 
   def channel do
     quote do
       use Phoenix.Channel
-
-      alias PetStore.Repo
-      import Ecto
-      import Ecto.Query
-      import PetStore.Gettext
+      import PetStoreWeb.Gettext
     end
   end
 
