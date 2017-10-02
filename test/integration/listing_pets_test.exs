@@ -24,7 +24,7 @@ defmodule ListingPetsIntegrationTest do
 
   # Do we in fact want guards instead of pattern matching?
   # Should this live in a library module somewhere?
-  defp jsonapi_response([head | tail] = resources) do
+  defp jsonapi_response(resources) when is_list(resources) do
     %{data: jsonapi_resources(resources)} |> Poison.encode!
   end
 

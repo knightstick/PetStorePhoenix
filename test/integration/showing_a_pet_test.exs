@@ -27,11 +27,6 @@ defmodule ShowingAPetIntegrationTest do
     %{data: jsonapi_resource(resource)} |> Poison.encode!
   end
 
-  defp jsonapi_resources(resources) do
-    resources
-    |> Enum.map(&jsonapi_resource/1)
-  end
-
   defp jsonapi_resource(resource) do
     %{type: "pets", attributes: %{name: resource.name}}
   end
