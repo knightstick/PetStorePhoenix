@@ -34,6 +34,10 @@ defmodule ListingPetsIntegrationTest do
   end
 
   defp jsonapi_resource(resource) do
-    %{type: "pets", attributes: %{name: resource.name}}
+    %{
+      type: "pets",
+      id: resource.id,
+      attributes: %{name: resource.name}
+    }
   end
 end

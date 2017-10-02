@@ -17,6 +17,7 @@ defmodule PetStore.PetView do
   def pet_jsonapi(pet) do
     %{
       type: "pets",
+      id: pet.id,
       attributes: %{
         name: pet.name
       }

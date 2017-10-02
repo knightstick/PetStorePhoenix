@@ -10,6 +10,7 @@ defmodule PetStore.PetViewTest do
 
     assert rendered_pet == %{
       type: "pets",
+      id: pet.id,
       attributes: %{
         name: pet.name
       }
