@@ -1,6 +1,7 @@
 defmodule ListingPetsIntegrationTest do
   use ExUnit.Case, async: true
   use Plug.Test
+  import PetStore.Factory
   alias PetStore.Router
   alias PetStore.Repo
 
@@ -12,7 +13,7 @@ defmodule ListingPetsIntegrationTest do
 
   @opts Router.init([])
   test "listing pets" do
-    %Pet{name: "Phoenix"} |> Repo.insert!
+    insert(:pet)
     pets = Repo.all(Pet)
 
     conn = conn(:get, "/api/v1/pets")
@@ -22,7 +23,6 @@ defmodule ListingPetsIntegrationTest do
     assert response.resp_body == jsonapi_response(pets)
   end
 
-  # Do we in fact want guards instead of pattern matching?
   # Should this live in a library module somewhere?
   defp jsonapi_response(resources) when is_list(resources) do
     %{data: jsonapi_resources(resources)} |> Poison.encode!

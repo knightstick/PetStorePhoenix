@@ -1,10 +1,10 @@
 defmodule ShowingAPetIntegrationTest do
+  # Can we share this in some IntegrationCase?
   use ExUnit.Case, async: true
   use Plug.Test
+  import PetStore.Factory
   alias PetStore.Router
   alias PetStore.Repo
-
-  alias PetStore.Pet
 
   setup do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
@@ -12,7 +12,7 @@ defmodule ShowingAPetIntegrationTest do
 
   @opts Router.init([])
   test "showing a pet" do
-    pet = %Pet{name: "Phoenix"} |> Repo.insert!
+    pet = insert(:pet)
 
     conn = conn(:get, "/api/v1/pets/#{pet.id}")
     response = Router.call(conn, @opts)
