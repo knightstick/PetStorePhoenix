@@ -39,7 +39,8 @@ defmodule PetStore.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:ex_machina, "~> 2.1", only: :test}
+      {:ex_machina, "~> 2.1", only: :test},
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false}
     ]
   end
 

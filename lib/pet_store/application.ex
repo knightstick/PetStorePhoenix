@@ -1,5 +1,6 @@
 defmodule PetStore.Application do
   use Application
+  alias PetStoreWeb.Endpoint
 
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
@@ -11,8 +12,9 @@ defmodule PetStore.Application do
       # Start the Ecto repository
       supervisor(PetStore.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(PetStoreWeb.Endpoint, []),
-      # Start your own worker by calling: PetStore.Worker.start_link(arg1, arg2, arg3)
+      supervisor(PetStore.Endpoint, []),
+      # Start your own worker by calling:
+      #   PetStore.Worker.start_link(arg1, arg2, arg3)
       # worker(PetStore.Worker, [arg1, arg2, arg3]),
     ]
 
@@ -25,7 +27,7 @@ defmodule PetStore.Application do
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    PetStoreWeb.Endpoint.config_change(changed, removed)
+    Endpoint.config_change(changed, removed)
     :ok
   end
 end

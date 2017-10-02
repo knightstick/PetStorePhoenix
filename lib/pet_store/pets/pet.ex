@@ -3,7 +3,6 @@ defmodule PetStore.Pets.Pet do
   import Ecto.Changeset
   alias PetStore.Pets.Pet
 
-
   schema "pets" do
     field :name, :string
 
