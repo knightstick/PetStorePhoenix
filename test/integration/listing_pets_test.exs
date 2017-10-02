@@ -2,10 +2,10 @@ defmodule ListingPetsIntegrationTest do
   use ExUnit.Case, async: true
   use Plug.Test
   import PetStore.Factory
-  alias PetStore.Router
+  alias PetStoreWeb.Router
   alias PetStore.Repo
 
-  alias PetStore.Pet
+  alias PetStore.Pets.Pet
 
   setup do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)

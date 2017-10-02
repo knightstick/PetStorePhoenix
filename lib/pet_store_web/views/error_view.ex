@@ -1,5 +1,5 @@
-defmodule PetStore.ErrorView do
-  use PetStore.Web, :view
+defmodule PetStoreWeb.ErrorView do
+  use PetStoreWeb, :view
 
   def render("404.json", _assigns) do
     %{errors: %{detail: "Page not found"}}

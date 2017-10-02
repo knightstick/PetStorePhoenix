@@ -1,7 +1,7 @@
-defmodule PetStore.Endpoint do
+defmodule PetStoreWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :pet_store
 
-  socket "/socket", PetStore.UserSocket
+  socket "/socket", PetStoreWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -34,7 +34,22 @@ defmodule PetStore.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_pet_store_key",
-    signing_salt: "/74oVyX9"
+    signing_salt: "JCkYTBuF"
 
-  plug PetStore.Router
+  plug PetStoreWeb.Router
+
+  @doc """
+  Callback invoked for dynamically configuring the endpoint.
+
+  It receives the endpoint configuration and checks if
+  configuration should be loaded from the system environment.
+  """
+  def init(_key, config) do
+    if config[:load_from_system_env] do
+      port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
+      {:ok, Keyword.put(config, :http, [:inet6, port: port])}
+    else
+      {:ok, config}
+    end
+  end
 end
