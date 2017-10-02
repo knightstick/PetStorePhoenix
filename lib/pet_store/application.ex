@@ -12,7 +12,7 @@ defmodule PetStore.Application do
       # Start the Ecto repository
       supervisor(PetStore.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(PetStore.Endpoint, []),
+      supervisor(Endpoint, []),
       # Start your own worker by calling:
       #   PetStore.Worker.start_link(arg1, arg2, arg3)
       # worker(PetStore.Worker, [arg1, arg2, arg3]),
