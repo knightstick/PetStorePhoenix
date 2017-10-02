@@ -2,10 +2,15 @@ defmodule PetStore.Router do
   use PetStore.Web, :router
 
   pipeline :api do
+    # Can we use JSON API here?
     plug :accepts, ["json"]
   end
 
   scope "/api", PetStore do
-    pipe_through :api
+    scope "/v1" do
+      pipe_through :api
+
+      resources "/pets", PetController, only: [:index, :show]
+    end
   end
 end
