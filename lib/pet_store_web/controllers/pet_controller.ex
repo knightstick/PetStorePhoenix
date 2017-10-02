@@ -1,16 +1,14 @@
 defmodule PetStoreWeb.PetController do
   use PetStoreWeb, :controller
-  alias PetStore.Repo
+  alias PetStore.Pets
 
   def index(conn, _params) do
-    # This should be in the context
-    pets = Repo.all(PetStore.Pets.Pet)
+    pets = Pets.list_pets
     render conn, pets: pets
   end
 
   def show(conn, %{"id" => id}) do
-    # This should be in the context
-    pet = Repo.get!(PetStore.Pets.Pet, id)
+    pet = Pets.get_pet!(id)
     render conn, pet: pet
   end
 end
