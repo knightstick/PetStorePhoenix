@@ -21,6 +21,14 @@ defmodule ShowingAPetIntegrationTest do
     assert response.resp_body == jsonapi_response(pet)
   end
 
+  test "showing a pet that doesn't exist" do
+    conn = conn(:get, "/api/v1/pets/123")
+    response = Router.call(conn, @opts)
+
+    assert response.status == 404
+    assert response.resp_body == jsonapi_error(:not_found)
+  end
+
   # Do we in fact want guards instead of pattern matching?
   # Should this live in a library module somewhere?
   defp jsonapi_response(resource) do
@@ -33,5 +41,17 @@ defmodule ShowingAPetIntegrationTest do
       id: resource.id,
       attributes: %{name: resource.name}
     }
+  end
+
+  defp jsonapi_error(:not_found, detail \\ "Not Found") do
+    %{
+      errors: [
+        %{
+          status: "404",
+          title: "Not Found",
+          detail: detail
+        }
+      ]
+    } |> Poison.encode!
   end
 end

@@ -25,6 +25,15 @@ defmodule PetStore.PetsTest do
       assert Pets.list_pets() == [pet]
     end
 
+    test "get_pet/1 returns the pet with given id" do
+      pet = pet_fixture()
+      assert Pets.get_pet(pet.id) == pet
+    end
+
+    test "get_pet/1 returns nil nonexistent id" do
+      assert Pets.get_pet(123) == nil
+    end
+
     test "get_pet!/1 returns the pet with given id" do
       pet = pet_fixture()
       assert Pets.get_pet!(pet.id) == pet
