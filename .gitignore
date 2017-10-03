@@ -17,3 +17,4 @@ erl_crash.dump
 
 # Vim swap files
 *.swp
+*.swo
