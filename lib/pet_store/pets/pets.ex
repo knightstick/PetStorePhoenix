@@ -35,6 +35,7 @@ defmodule PetStore.Pets do
       ** (Ecto.NoResultsError)
 
   """
+  def get_pet(id), do: Repo.get(Pet, id)
   def get_pet!(id), do: Repo.get!(Pet, id)
 
   @doc """
