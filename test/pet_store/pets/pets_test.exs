@@ -10,6 +10,7 @@ defmodule PetStore.PetsTest do
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
 
+    # Use a factory?
     def pet_fixture(attrs \\ %{}) do
       {:ok, pet} =
         attrs
