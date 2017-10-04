@@ -10,7 +10,7 @@ defmodule PetStoreWeb.PetControllerTest do
     conn = get conn, pet_path(conn, :index)
 
     assert json_response(conn, 200) ==
-      render_jsonapi(PetView, "index.json", %{pets: [pet]})
+      render_json(PetView, "index.json-api", %{data: [pet]})
   end
 
   describe "#show do" do
@@ -21,7 +21,7 @@ defmodule PetStoreWeb.PetControllerTest do
       conn = get conn, pet_path(conn, :show, pet)
 
       assert json_response(conn, 200) ==
-        render_jsonapi(PetView, "show.json", %{pet: pet})
+        render_json(PetView, "show.json-api", %{data: pet})
     end
 
     test "Not Found renders a JSON API 404" do
@@ -30,7 +30,7 @@ defmodule PetStoreWeb.PetControllerTest do
       conn = get conn, pet_path(conn, :show, 123)
 
       assert json_response(conn, 404) ==
-        render_jsonapi(ErrorView, "404.json", %{})
+        render_json(ErrorView, "404.json", %{})
     end
   end
 end
