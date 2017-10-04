@@ -5,6 +5,12 @@
 # is restricted to this project.
 use Mix.Config
 
+config :phoenix, :format_encoders, "json-api": Poison
+
+config :mime, :types, %{
+  "application/vnd.api+json" => ["json-api"]
+}
+
 # General application configuration
 config :pet_store,
   ecto_repos: [PetStore.Repo]
@@ -12,7 +18,7 @@ config :pet_store,
 # Configures the endpoint
 config :pet_store, PetStoreWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: PetStoreWeb.ErrorView, accepts: ~w(json)],
+  render_errors: [view: PetStoreWeb.ErrorView, accepts: ~w(json-api)],
   pubsub: [name: PetStore.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
