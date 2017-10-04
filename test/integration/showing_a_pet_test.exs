@@ -1,57 +1,38 @@
 defmodule ShowingAPetIntegrationTest do
-  # Can we share this in some IntegrationCase?
-  use ExUnit.Case, async: true
-  use Plug.Test
-  import PetStore.Factory
+  use PetStore.IntegrationCase
   alias PetStoreWeb.Router
-  alias PetStore.Repo
-
-  setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-  end
 
   @opts Router.init([])
-  test "showing a pet" do
-    pet = insert(:pet)
+  describe "showing a specific pet" do
+    setup _context do
+      pet = insert(:pet)
+      conn = conn(:get, "/api/v1/pets/#{pet.id}")
 
-    conn = conn(:get, "/api/v1/pets/#{pet.id}")
-    response = Router.call(conn, @opts)
+      {:ok, conn: conn, pet: pet}
+    end
 
-    assert response.status == 200
-    assert response.resp_body == jsonapi_response(pet)
-  end
+    test "showing a pet", %{conn: conn, pet: pet} do
+      response = Router.call(conn, @opts)
 
-  test "showing a pet that doesn't exist" do
-    conn = conn(:get, "/api/v1/pets/123")
-    response = Router.call(conn, @opts)
+      assert response.status == 200
 
-    assert response.status == 404
-    assert response.resp_body == jsonapi_error(:not_found)
-  end
+      expected = %{name: pet.name, id: pet.id}
+      assert_primary_data_match response.resp_body, expected
+    end
 
-  # Do we in fact want guards instead of pattern matching?
-  # Should this live in a library module somewhere?
-  defp jsonapi_response(resource) do
-    %{data: jsonapi_resource(resource)} |> Poison.encode!
-  end
+    test "showing a pet that doesn't exist", %{conn: conn, pet: pet} do
+      PetStore.Pets.delete_pet(pet)
+      response = Router.call(conn, @opts)
 
-  defp jsonapi_resource(resource) do
-    %{
-      type: "pets",
-      id: resource.id,
-      attributes: %{name: resource.name}
-    }
-  end
+      assert response.status == 404
 
-  defp jsonapi_error(:not_found, detail \\ "Not Found") do
-    %{
-      errors: [
-        %{
-          status: "404",
-          title: "Not Found",
-          detail: detail
-        }
-      ]
-    } |> Poison.encode!
+      expected = [%{
+        status: "404",
+        title: "Not Found",
+        detail: "Not Found"
+      }]
+
+      assert_errors_match response.resp_body, expected
+    end
   end
 end

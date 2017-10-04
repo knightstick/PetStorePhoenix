@@ -1,43 +1,35 @@
 defmodule ListingPetsIntegrationTest do
-  use ExUnit.Case, async: true
-  use Plug.Test
-  import PetStore.Factory
+  use PetStore.IntegrationCase
   alias PetStoreWeb.Router
-  alias PetStore.Repo
-
-  alias PetStore.Pets.Pet
-
-  setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-  end
 
   @opts Router.init([])
-  test "listing pets" do
-    insert(:pet)
-    pets = Repo.all(Pet)
+  describe "listing pets" do
+    setup _context do
+      conn = conn(:get, "/api/v1/pets")
 
-    conn = conn(:get, "/api/v1/pets")
-    response = Router.call(conn, @opts)
+      {:ok, conn: conn}
+    end
 
-    assert response.status == 200
-    assert response.resp_body == jsonapi_response(pets)
-  end
+    test "listing a pet", %{conn: conn} do
+      pet = insert(:pet)
+      response = Router.call(conn, @opts)
 
-  # Should this live in a library module somewhere?
-  defp jsonapi_response(resources) when is_list(resources) do
-    %{data: jsonapi_resources(resources)} |> Poison.encode!
-  end
+      assert response.status == 200
 
-  defp jsonapi_resources(resources) do
-    resources
-    |> Enum.map(&jsonapi_resource/1)
-  end
+      expected = [%{name: pet.name, id: pet.id}]
+      assert_primary_data_match response.resp_body, expected
+    end
 
-  defp jsonapi_resource(resource) do
-    %{
-      type: "pets",
-      id: resource.id,
-      attributes: %{name: resource.name}
-    }
+    test "listing more pets", %{conn: conn} do
+      pets = [insert(:pet), insert(:pet)]
+      response = Router.call(conn, @opts)
+
+      assert response.status == 200
+
+      expected = pets
+                 |> Enum.map(fn pet -> %{name: pet.name, id: pet.id} end)
+
+      assert_primary_data_match response.resp_body, expected
+    end
   end
 end
