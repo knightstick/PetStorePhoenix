@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  app:
+    build: .
+    links:
+      - db:db
+    environment:
+      PGHOST: db
+      PGUSER: postgres
+    entrypoint: wait-for-it.sh db:5432 -s --
+
+  db:
+    image: postgres
