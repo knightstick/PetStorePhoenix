@@ -1,0 +1,3 @@
+steps:
+  - label: Example Text
+    command: echo "Hello!"
