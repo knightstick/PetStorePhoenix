@@ -15,7 +15,10 @@ use Mix.Config
 # which you typically run after static files are built.
 config :pet_store, PetStoreWeb.Endpoint,
   load_from_system_env: true,
-  url: [host: "example.com", port: 80]
+  url: [host: "example.com", port: 80],
+  secret_key_base: "${SECRET_KEY_BASE}",
+  server: true,
+  root: "."
 
 # Do not print debug messages in production
 config :logger, level: :info
