@@ -16,7 +16,7 @@ RUN mix do deps.get, deps.compile
 COPY . .
 
 # Use distillery to make a release executable
-RUN mix release --env=prod --verbose
+RUN MIX_ENV=prod mix release --verbose
 
 # Now, create a second image, from alpine edge
 FROM alpine:edge
@@ -27,7 +27,6 @@ RUN apk --no-cache add bash openssl && rm -rf /var/cache/apk/*
 # Allows us to put env vars into our release build
 ENV REPLACE_OS_VARS=true SHELL=/bin/sh
 
-ENV APP_NAME=pet_store
 COPY --from=builder /opt/app/_build/prod/rel/pet_store /pet_store
 
 # Use the command distillery gave us to run the server in the foreground
