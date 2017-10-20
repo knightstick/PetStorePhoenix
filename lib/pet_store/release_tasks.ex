@@ -12,16 +12,12 @@ defmodule PetStore.ReleaseTasks do
   def repos, do: Application.get_env(myapp(), :ecto_repos, [])
 
   def seed do
-    me = myapp()
-
-    IO.puts "Loading #{me}.."
-    # Load the code for myapp, but don't start it
-    # :ok = Application.load(me)
-    Application.load(me)
+    IO.puts "Loading pet store..."
+    Application.load(:pet_store)
 
     IO.puts "Starting dependencies.."
     # Start apps necessary for executing migrations
-    # Enum.each(@start_apps, &Application.ensure_all_started/1)
+    Enum.each(@start_apps, &Application.ensure_all_started/1)
 
     # Start the Repo(s) for myapp
     IO.puts "Starting repos.."
