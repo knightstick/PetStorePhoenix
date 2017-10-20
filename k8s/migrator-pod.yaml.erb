@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: migrator-pod-<%= deployment_id %>
+spec:
+  restartPolicy: Never
+  containers:
+    - name: migrator
+      image: 908698464646.dkr.ecr.ap-southeast-2.amazonaws.com/pet_store:0.0.9
+      command: ["/pet_store/bin/pet_store"]
+      args: ["migrate"]
+      ports:
+        - containerPort: 8000
+
+      env:
+        - name: HOST
+          value: "example.com"
+        - name: PORT
+          value: "8000"
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: pet-store-secrets-prod
+              key: secret_key_base
+        - name: DB_USERNAME
+          value: "postgres"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pet-store-secrets-prod
+              key: db_password
+        - name: DB_NAME
+          value: "pet_store_prod"
+        - name: DB_HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              name: pet-store-secrets-prod
+              key: db_hostname
+  imagePullSecrets:
+    - name: regsecret
