@@ -16,7 +16,9 @@ use Mix.Config
 config :pet_store, PetStoreWeb.Endpoint,
   load_from_system_env: true,
   url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  secret_key_base: "${SECRET_KEY_BASE}",
+  server: true,
+  root: "."
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -59,6 +61,10 @@ config :logger, level: :info
 #     config :pet_store, PetStoreWeb.Endpoint, server: true
 #
 
-# Finally import the config/prod.secret.exs
-# which should be versioned separately.
-import_config "prod.secret.exs"
+config :pet_store, PetStore.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  hostname: "${DB_HOSTNAME}",
+  username: "${DB_USERNAME}",
+  password: "${DB_PASSWORD}",
+  database: "${DB_NAME}",
+  pool_size: 20

@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pet-store
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: pet-store
+    spec:
+      containers:
+        - name: pet-store
+          image: 908698464646.dkr.ecr.ap-southeast-2.amazonaws.com/pet_store:0.0.9
+          ports:
+            - containerPort: 8000
+          env:
+            - name: HOST
+              value: "example.com"
+            - name: PORT
+              value: "8000"
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: pet-store-secrets-prod
+                  key: secret_key_base
+            - name: DB_USERNAME
+              value: "postgres"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pet-store-secrets-prod
+                  key: db_password
+            - name: DB_NAME
+              value: "pet_store_prod"
+            - name: DB_HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  name: pet-store-secrets-prod
+                  key: db_hostname
+      imagePullSecrets:
+        - name: regsecret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-store
+spec:
+  selector:
+    app: pet-store
+  ports:
+    - port: 8080
+      targetPort: 8000
+      protocol: TCP
+      name: http
+  type: LoadBalancer
